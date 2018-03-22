@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>MTG Finder</title>
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+    <main>
+       <h1>Cards</h1> <br>
+       <hr>
+        <div class="filter">
+            <label for="search">Search Card:</label>
+            <input type="text" name="search" id="searchTB">
+            <label for="card">Submit</label>
+            <button type="submit" name="card" id="cardButton"></button>
+            <label for="set">Set</label>
+            <select name="set" id="set"></select>
+        </div>
+
+        <div id="cards">
+            <div id="results"></div>
+        </div>
+
+    </main>
+</body>
+<script src="javascripts/jquery.min.js"></script>
+<script src="javascripts/cards.js" type="text/javascript"></script>
+
+</html>
