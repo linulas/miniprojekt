@@ -20,14 +20,14 @@ var CardApp = (function () {
         setSelector.value = 0; // Set selector to 'All'
 
         // register service worker
-        /*if ('serviceWorker' in navigator) {
+        if ('serviceWorker' in navigator) {
             try {
                 navigator.serviceWorker.register('sw.js');
                 console.log('Service Worker registered');
             } catch (error) {
                 console.log('Service Worker registration failed');
             }
-        }*/
+        }
     }
 
     // Fetches cards from api
