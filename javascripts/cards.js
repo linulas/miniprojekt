@@ -7,27 +7,27 @@
 /* eslint no-console: ["warn", { allow: ["log"] }] */
 var CardApp = (function () {
     // App Properties --------------------------
-    const search = $('#searchTB'), // The textbox for searching cards
-        searchButton = $('#cardButton'), // Button to submit search
+    const search = document.querySelector('#searchTB'), // The textbox for searching cards
+        searchButton = document.querySelector('#searchButton'), // Button to submit search
         setSelector = document.querySelector('#set'), // Selector for card sets
         results = document.querySelector('#results'); // Element to display cards
-    var cardSet = ''; // The set of the cards
+    var apiQuery = ''; // The set of the cards
 
     // App Methods -----------------------------
     async function init() {
-        updateCards(cardSet); // Fetch Cards
+        updateCards(apiQuery); // Fetch Cards
         await updateSets(); // Fetch sets
         setSelector.value = 0; // Set selector to 'All'
 
         // register service worker
-        if ('serviceWorker' in navigator) {
+        /*if ('serviceWorker' in navigator) {
             try {
                 navigator.serviceWorker.register('sw.js');
                 console.log('Service Worker registered');
             } catch (error) {
                 console.log('Service Worker registration failed');
             }
-        }
+        }*/
     }
 
     // Fetches cards from api
@@ -35,8 +35,14 @@ var CardApp = (function () {
         const res = await fetch('https://api.magicthegathering.io/v1/cards' + cardSet);
         const json = await res.json();
         console.log(json.cards);
+        
+        results.innerHTML = '';
+        
+        for(var i = 0; i < json.cards.length; i++) {
+            displayCard(json.cards[i])
+        }
 
-        results.innerHTML = json.cards.map(displayCard).join('\n'); // Display in browser
+        //results.innerHTML = json.cards.map(displayCard).join('\n'); // Display in browser
     }
 
     // Fetch sets from api
@@ -51,7 +57,20 @@ var CardApp = (function () {
 
     // Create elements to display
     function displayCard(card) {
-        return '<div class="card"><img src="' + card.imageUrl + '"><div>';
+        var title = document.createElement('h5');
+        var image = document.createElement('img');
+        var description = document.createElement('p');
+        var cardItem = document.createElement('div');
+        
+        title.innerHTML = card.name;
+        image.src = card.imageUrl;
+        description.innerHTML = 'Set: ' + card.setName + '</br> Rarity: ' + card.rarity + '</br> Artist: ' + card.artist;
+        cardItem.className = 'card-group-item col-md-6 col-lg-4';
+        cardItem.appendChild(title);
+        cardItem.appendChild(image);
+        cardItem.appendChild(description);
+        
+        results.appendChild(cardItem);
     }
     
     // Event listeners ---------------------------
@@ -59,11 +78,18 @@ var CardApp = (function () {
     // Calls new api request according to selected set
     setSelector.addEventListener('change', e => {
         if (e.target.value == 0) {
-            cardSet = '';
+            apiQuery = '';
         } else {
-            cardSet = '?set=' + e.target.value;
+            apiQuery = '?set=' + e.target.value.replace(' ', '_');
         }
-        updateCards(cardSet);
+        updateCards(apiQuery);
+    });
+    
+    searchButton.addEventListener('click', function() {
+        if(search != '') {
+            apiQuery = '?name=' + search.value;
+            updateCards(apiQuery);
+        }
     });
 
     return {

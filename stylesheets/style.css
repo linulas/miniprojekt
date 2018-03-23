@@ -1,8 +1,38 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 10px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
+}
+
+#cardControll button {
+    margin-top: 4%;
+}
+
+.card-group-item,
+.card-group-item h5,
+.card-group-item p {
+    padding: 5%;
+}
+
+.card-group-item img {
+    width: 100%;
+}
+
+@media (min-width: 576px) {
+    body {
+        padding: 50px;
+    }
+    
+    .card-group-item img {
+        width: 223px;
+    }
+}
+
+@media (min-width: 250px) {
+    .card-group-item img {
+        width: 223px;
+    }
 }

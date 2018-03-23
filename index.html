@@ -3,30 +3,42 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="distribution" content="web">
+    <meta property="og:site_name" content="Cards" />
+    <meta name="description" content="Card app for Magic the Gathering. Find and view Cards">
+    <meta name="keywords" content="MTG,Cards,Magic,Search">
+    <meta name="author" content="Linus Brännström">
     <title>MTG Finder</title>
-    <link rel="manifest" href="manifest.json">
+    <!--<link rel="manifest" href="manifest.json">-->
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./stylesheets/style.css">
 </head>
 
 <body>
-    <main>
-       <h1>Cards</h1> <br>
-       <hr>
-        <div class="filter">
-            <label for="search">Search Card:</label>
-            <input type="text" name="search" id="searchTB">
-            <label for="card">Submit</label>
-            <button type="submit" name="card" id="cardButton"></button>
-            <label for="set">Set</label>
-            <select name="set" id="set"></select>
+    <main class="">
+        <h1>Cards</h1> <br>
+        <hr>
+        <div class="form-group row" id="cardControll">
+            <div class="col-md-4 form-group">
+                <label for="search">Search Card: </label>
+                <input class="form-control" type="text" name="search" id="searchTB">
+                <button type="button" class="btn btn-primary" id="searchButton">Search</button>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="set">Set: </label>
+                <select class="form-control" name="set" id="set"></select>
+            </div>
         </div>
 
-        <div id="cards">
-            <div id="results"></div>
+        <div class="text-center container" id="cards">
+            <div class="card-group row" id="results"></div>
         </div>
-
     </main>
 </body>
-<script src="javascripts/jquery.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<!--<script src="node_modules/popper.js/dist/popper.js"></script>-->
+<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="javascripts/cards.js" type="text/javascript"></script>
 
 </html>
