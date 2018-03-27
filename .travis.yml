@@ -8,3 +8,7 @@ install:
 after_success:
  — firebase deploy — project 
 miniprojekt-ca365 — token $FIREBASE_TOKEN.
+# blocklist
+branches:
+  except:
+  - firebase
