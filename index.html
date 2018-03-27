@@ -10,7 +10,7 @@
     <meta name="keywords" content="MTG,Cards,Magic,Search">
     <meta name="author" content="Linus Brännström">
     <title>MTG Finder</title>
-    <!--<link rel="manifest" href="manifest.json">-->
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./stylesheets/style.css">
 </head>
@@ -29,7 +29,17 @@
                 <label for="set">Set: </label>
                 <select class="form-control" name="set" id="set"></select>
             </div>
+
+            <div class="form-group col-md-12">
+                <button class="btn btn-primary js-push-btn">Enable Push Notifications</button>
+            </div>
         </div>
+        
+        <section class="subscription-details js-subscription-details is-invisible container">
+                <p>To test recieving a push notification, copy the following details into the <a href="https://web-push-codelab.glitch.me//">Push Companion
+      Site</a> and it'll send a push message for you, using the application server keys on the site - so make sure they match.</p>
+                <pre><code class="js-subscription-json"></code></pre>
+            </section>
 
         <div class="text-center container" id="cards">
             <div class="card-group row" id="results"></div>

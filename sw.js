@@ -47,3 +47,29 @@ async function networkFirst(req) {
         return cachedResponse || await caches.match('./fallback.json'); // Cache fallback
     }
 }
+
+// Listen for push events to push
+self.addEventListener('push', function (event) {
+    console.log('[Service Worker] Push Received.');
+    console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+
+    const title = 'Push Codelab';
+    const options = {
+        body: 'Yay it works.',
+        icon: 'images/icon.png',
+        badge: 'images/badge.png'
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Listen for clicks on the recieved notifications
+self.addEventListener('notificationclick', function (event) {
+    console.log('[Service Worker] Notification click Received.');
+
+    event.notification.close();
+
+    event.waitUntil(
+        clients.openWindow('https://github.com/linulas/miniprojekt') // When clicked
+    );
+});

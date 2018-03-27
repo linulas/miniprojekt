@@ -31,6 +31,14 @@ a {
     }
 }
 
+.is-invisible {
+  opacity: 0;
+}
+
+.subscription-details {
+  transition: opacity 1s;
+}
+
 @media (min-width: 250px) {
     .card-group-item img {
         width: 223px;
