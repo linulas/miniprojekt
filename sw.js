@@ -10,14 +10,14 @@ const staticAssets = [
 
 // Add the assets to the cache
 self.addEventListener('install', async function () {
-    console.log('install');
     const cache = await caches.open('card-static');
     cache.addAll(staticAssets);
+    
 });
 
 // Fetch data from cache or network
 self.addEventListener('fetch', event => {
-    console.log('fetch');
+    console.log('fetching...');
     const req = event.request;
     const url = new URL(req.url);
 
@@ -72,4 +72,9 @@ self.addEventListener('notificationclick', function (event) {
     event.waitUntil(
         clients.openWindow('https://github.com/linulas/miniprojekt') // When clicked
     );
+});
+
+self.addEventListener('activate', function (event)
+{
+    event.waitUntil(self.clients.claim());
 });

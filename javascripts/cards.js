@@ -1,16 +1,10 @@
 /**
  * Cards
  * Author: Linus Brännström
-
-Private Key
-
-1zc-UJxyEmk5g0qxPrLxE9lKtZr5mHz1Ms2TPBKecNs
  */
 
 /* eslint-env jquery, browser */
 /* eslint no-console: ["warn", { allow: ["log"] }] */
-
-"use strict";
 
 var CardApp = (function () {
     // App Properties --------------------------
@@ -26,10 +20,29 @@ var CardApp = (function () {
     let swRegistration = null;
 
     // App Methods -----------------------------
-    async function init() {
-        ServiceAndPush(); // Register service and pushmanager
+    function init() {
+
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+            console.log('Service Worker and Push is supported');
+
+            navigator.serviceWorker.register('sw.js')
+                .then(function (swReg) {
+                    console.log('Service Worker is registered', swReg);
+
+                    swRegistration = swReg;
+                    // Check if the user is Subscribed and set Pushbutton accordingly
+                    initializeUI();
+                })
+                .catch(function (error) {
+                    console.error('Service Worker Error', error);
+                });
+        } else {
+            console.warn('Push messaging is not supported');
+            pushButton.textContent = 'Push Not Supported';
+        }
+
         updateCards(apiQuery); // Fetch Cards
-        await updateSets(); // Fetch sets
+        updateSets(); // Fetch sets
     }
 
     // Fetches cards from api
@@ -86,29 +99,7 @@ var CardApp = (function () {
                 updateBtn();
             });
     }
-
-    // register service worker and push manager
-    function ServiceAndPush() {
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
-            console.log('Service Worker and Push is supported');
-
-            navigator.serviceWorker.register('sw.js')
-                .then(function (swReg) {
-                    console.log('Service Worker is registered', swReg);
-
-                    swRegistration = swReg;
-                    // Check if the user is Subscribed and set Pushbutton accordingly
-                    initializeUI();
-                })
-                .catch(function (error) {
-                    console.error('Service Worker Error', error);
-                });
-        } else {
-            console.warn('Push messaging is not supported');
-            pushButton.textContent = 'Push Not Supported';
-        }
-    }
-
+    
     // Convert string to UInt8Array
     function urlB64ToUint8Array(base64String) {
         const padding = '='.repeat((4 - base64String.length % 4) % 4);
