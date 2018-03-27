@@ -10,5 +10,5 @@ after_success:
 miniprojekt-ca365 — token $FIREBASE_TOKEN.
 # blocklist
 branches:
-  except:
+  only:
   - firebase
