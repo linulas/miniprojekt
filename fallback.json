@@ -3,7 +3,7 @@
     {
       "name": "Not enough mana to fetch cards",
       "imageUrl": "images/mana-leak.jpg",
-      "text": "Try loading the page again when you're online."
+      "setName": "Try loading the page again when you're online."
     }
   ]
 }

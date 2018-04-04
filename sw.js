@@ -2,7 +2,9 @@
 const staticAssets = [
     './',
     './stylesheets/style.css',
-    './javascripts/jquery.min.js',
+    './node_modules/bootstrap/dist/css/bootstrap.min.css',
+    './node_modules/jquery/dist/jquery.min.js',
+    './node_modules/bootstrap/dist/js/bootstrap.min.js',
     './javascripts/cards.js',
     './images/mana-leak.jpg',
     './fallback.json'

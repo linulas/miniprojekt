@@ -1,5 +1,5 @@
 /**
- * Cards
+ * App: Cards
  * Author: Linus Brännström
  */
 
@@ -16,8 +16,8 @@ var CardApp = (function () {
         results = document.querySelector('#results'); // Element to display cards
     var apiQuery = ''; // The set of the cards
 
-    let isSubscribed = false;
-    let swRegistration = null;
+    let isSubscribed = false, // Boolean for user subscription
+        swRegistration = null; // Holds the registered serviceworker
 
     // App Methods -----------------------------
     function init() {
@@ -39,6 +39,7 @@ var CardApp = (function () {
         } else {
             console.warn('Push messaging is not supported');
             pushButton.textContent = 'Push Not Supported';
+            pushButton.disabled = true;
         }
 
         updateCards(apiQuery); // Fetch Cards
@@ -99,22 +100,6 @@ var CardApp = (function () {
                 updateBtn();
             });
     }
-    
-    // Convert string to UInt8Array
-    function urlB64ToUint8Array(base64String) {
-        const padding = '='.repeat((4 - base64String.length % 4) % 4);
-        const base64 = (base64String + padding)
-            .replace(/\-/g, '+')
-            .replace(/_/g, '/');
-
-        const rawData = window.atob(base64);
-        const outputArray = new Uint8Array(rawData.length);
-
-        for (let i = 0; i < rawData.length; ++i) {
-            outputArray[i] = rawData.charCodeAt(i);
-        }
-        return outputArray;
-    }
 
     // Updates the Push notification button
     function updateBtn() {
@@ -134,6 +119,23 @@ var CardApp = (function () {
         pushButton.disabled = false;
     }
 
+    // Convert string to UInt8Array
+    function urlB64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+
+    // Subscripbes the user to push notifications
     function subscribeUser() {
         const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
         swRegistration.pushManager.subscribe({
@@ -155,9 +157,8 @@ var CardApp = (function () {
             });
     }
 
+    // Shows or hides info on how to demonstrate notifications
     function updateSubscriptionOnServer(subscription) {
-        // TODO: Send subscription to application server
-
         const subscriptionJson = document.querySelector('.js-subscription-json');
         const subscriptionDetails =
             document.querySelector('.js-subscription-details');
@@ -170,6 +171,7 @@ var CardApp = (function () {
         }
     }
 
+    // Unsubscribes the user from notifications
     function unsubscribeUser() {
         swRegistration.pushManager.getSubscription()
             .then(function (subscription) {
